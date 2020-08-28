@@ -25,6 +25,7 @@ class BooksController < ApplicationController
   # POST /books.json
   def create
     @book = Book.new(book_params)
+    @price_with_tax = (book_params[:price].to_i * 1.10r).truncate
 
     respond_to do |format|
       if @book.save

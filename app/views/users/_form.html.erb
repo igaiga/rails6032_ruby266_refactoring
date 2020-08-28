@@ -1,5 +1,6 @@
-<%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
+<%= form_with(model: @user_form, url: users_path, local: true) do |form| %>
+<%#= form_with(model: user, local: true) do |form| %>
+  <% if @user_form.user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
@@ -19,6 +20,12 @@
   <div class="field">
     <%= form.label :email %>
     <%= form.text_field :email %>
+  </div>
+
+  <%# 追加 %>
+  <div class="field">
+    利用規約
+    <%= form.check_box :terms_of_service %>
   </div>
 
   <div class="actions">

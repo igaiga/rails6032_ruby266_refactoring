@@ -14,7 +14,8 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @user = User.new
+    # @user = User.new
+    @user_form = UserRegistrationForm.new # FormObjectにする
   end
 
   # GET /users/1/edit
@@ -24,15 +25,14 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    # FormObjectにする
+    @user_form = UserRegistrationForm.new(user_registration_form_params)
 
     respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+      if @user_form.save
+        format.html { redirect_to @user_form.user, notice: 'User was successfully created.' }
       else
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -62,13 +62,20 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:name, :email)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def user_params
+    params.require(:user).permit(:name, :email)
+  end
+
+  # 飛んでくるパラメータ中のモデル名のところがFormObject名になってるのでStrongParamtersを変更
+  # "user_registration_form"=>{"name"=>"a", "email"=>"b", "terms_of_service"=>"1"}
+  def user_registration_form_params
+    params.require(:user_registration_form).permit(:name, :email, :terms_of_service)
+  end
 end

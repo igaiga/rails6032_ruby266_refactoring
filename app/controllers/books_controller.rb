@@ -25,10 +25,9 @@ class BooksController < ApplicationController
   # POST /books.json
   def create
     @book = Book.new(book_params)
-    @price_with_tax = (book_params[:price].to_i * 1.10r).truncate
-
     respond_to do |format|
       if @book.save
+        @price_with_tax = @book.price_with_tax
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render :show, status: :created, location: @book }
       else

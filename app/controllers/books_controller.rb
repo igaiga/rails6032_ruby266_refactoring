@@ -5,6 +5,13 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = Book.all
+
+    # どこか用コード
+    # User.create!(name: "matz")
+    # Book.create!(title: "RubyBook")
+    # recommender = User.find_by(name: "matz")
+    # book = Book.find_by(title: "RubyBook")
+    # book.advertising_phrase(recommender) #=>  "matzも絶賛の新作「RubyBook」！ "
   end
 
   # GET /books/1
